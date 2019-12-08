@@ -17,8 +17,23 @@ colnames(raw_reviews)[8] <- "longitude"
 # Calculate boundaries for locaitons
 long_bounds <- as.double(c(min(raw_reviews$longitude), max(raw_reviews$longitude)))
 lat_bounds <- as.double(c(min(raw_reviews$latitude), max(raw_reviews$latitude)))
-geometrical_center <- c(mean(lat_bounds),mean(long_bounds))
+geometrical_center <- c(mean(lat_bounds),mean(long_bounds)) # Currently as c(lat,long), may need to rearrange
 
-raw_reviews <- raw_reviews %>% 
-  separate(col = address, sep = ", ", into = c("address", "city", "state.zip", "country"),remove = TRUE) %>% 
-  separate(col = state.zip, into = c("state", "zip"))
+# Clean up address
+state_zip_pattern <- "([[:alpha:]]{2})[[:space:]]([[:digit:]]{5})"
+states <- str_match(raw_reviews$address,state_zip_pattern)[,2]
+zips <- str_match(raw_reviews$address,state_zip_pattern)[,3]
+
+address_pattern <- "[[:digit:]]+[[:space:]][[:alpha:]]{1}[[:space:]][[:alnum:][:space:]]+"
+address_matches <- gregexpr(address_pattern,raw_reviews$address)
+addresses <- regmatches(raw_reviews$address,address_matches) %>% gsub(pattern = "character(0)", replacement = "NA")
+
+city_pattern <- "[,][[:space:]][[:alpha:]]+[,]"
+city_matches <- gregexpr(city_pattern,raw_reviews$address)
+cities <- regmatches(raw_reviews$address,city_matches) %>% gsub(pattern = ",",replacement = "") %>% trimws()
+
+country_pattern <- "[[:alpha:][:space:]]+$"
+country_matches <- gregexpr(country_pattern,raw_reviews$address)
+countries <- regmatches(raw_reviews$address,country_matches) %>% gsub(pattern = "USA", replacement = "United States") %>% trimws()
+
+  
