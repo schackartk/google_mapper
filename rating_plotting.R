@@ -1,6 +1,10 @@
 library(tidyverse)
 library(jsonlite)
 library(ggmap)
+library(viridis)
+library(gganimate)
+library(lubridate)
+library(av)
 
 # Register my google key
 google_key <- read_file("google_key.txt")
@@ -21,6 +25,11 @@ colnames(ratings)[5] <- "address"
 colnames(ratings)[6] <- "business_name"
 colnames(ratings)[7] <- "latitude"
 colnames(ratings)[8] <- "longitude"
+
+# Fix time formatting and data type
+ratings$date_time <- ratings$date_time %>% 
+  gsub(pattern = "T", replacement = " ")  %>% 
+  gsub(pattern = "Z", replacement = "") %>% ymd_hms()
 
 # Parse out parts of the address column using regular expressions via stringr::str_match
 addresses <- str_match(ratings$address,
@@ -46,6 +55,9 @@ ratings_of_interest <- ratings[ratings$cities == "Tucson",] # This part is well 
 ratings_of_interest$latitude <- as.double(ratings_of_interest$latitude)
 ratings_of_interest$longitude <- as.double(ratings_of_interest$longitude)
 
+# Get rid of missing values
+ratings_of_interest <- na.omit(ratings_of_interest)
+
 # Calculate boundaries for locaitons
 buffer <- 0.05
 bounding_box <- c(min(ratings_of_interest$longitude, na.rm = TRUE) - buffer, # Left
@@ -65,6 +77,9 @@ sq_map2 <-
 # Plot the map and ratings
 review_map <- ggmap(sq_map2) +
   geom_point(data = ratings_of_interest, 
-             mapping = aes(x = longitude, y = latitude, color = rating, alpha = 0.7),
-             size = 2) + xlab(NULL) + ylab(NULL)
+             mapping = aes(x = longitude, y = latitude, color = rating), alpha = 0.8,
+             size = 2) + xlab(NULL) + ylab(NULL) + scale_color_viridis(option="magma", "Star Rating") +
+  ggtitle("My Google Maps Place Ratings in Tucson, Arizona") + transition_reveal(date_time) + shadow_mark()
 review_map
+
+animate(review_map+ shadow_mark(), renderer = av_renderer())
