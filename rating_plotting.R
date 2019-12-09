@@ -44,9 +44,6 @@ ratings_of_interest$latitude <- as.double(ratings_of_interest$latitude)
 ratings_of_interest$longitude <- as.double(ratings_of_interest$longitude)
 
 # Calculate boundaries for locaitons
-#long_bounds <- c(min(ratings_of_interest$longitude, na.rm = TRUE), max(ratings_of_interest$longitude, na.rm = TRUE))
-#lat_bounds <- c(min(ratings_of_interest$latitude, na.rm = TRUE), max(ratings_of_interest$latitude, na.rm = TRUE))
-#geometrical_center <- c(mean(long_bounds),mean(lat_bounds))
 bounding_box <- c(min(ratings_of_interest$longitude, na.rm = TRUE)-0.05, # Left
                  min(ratings_of_interest$latitude, na.rm = TRUE)-0.05, # Bottom
                  max(ratings_of_interest$longitude, na.rm = TRUE)+0.05, # Right
