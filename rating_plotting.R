@@ -58,6 +58,8 @@ ratings_of_interest$longitude <- as.double(ratings_of_interest$longitude)
 # Get rid of missing values
 ratings_of_interest <- na.omit(ratings_of_interest)
 
+ratings_of_interest <- ratings_of_interest[order(ratings_of_interest$date_time),]
+
 # Calculate boundaries for locaitons
 buffer <- 0.05
 bounding_box <- c(min(ratings_of_interest$longitude, na.rm = TRUE) - buffer, # Left
@@ -78,8 +80,11 @@ sq_map2 <-
 review_map <- ggmap(sq_map2) +
   geom_point(data = ratings_of_interest, 
              mapping = aes(x = longitude, y = latitude, color = rating), alpha = 0.8,
-             size = 2) + xlab(NULL) + ylab(NULL) + scale_color_viridis(option="magma", "Star Rating") +
-  ggtitle("My Google Maps Place Ratings in Tucson, Arizona") + transition_reveal(date_time) + shadow_mark()
+             size = 2) + 
+  xlab(NULL) + ylab(NULL) + 
+  scale_color_viridis(option="magma", "Star Rating") +
+  ggtitle("My Google Maps Place Ratings in Tucson, Arizona") + 
+  transition_reveal(along = date_time, keep_last = TRUE) + shadow_mark(past = TRUE)
 review_map
 
-animate(review_map+ shadow_mark(), renderer = av_renderer())
+animate(review_map, renderer = av_renderer())
