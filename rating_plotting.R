@@ -79,12 +79,11 @@ sq_map2 <-
 # Plot the map and ratings
 review_map <- ggmap(sq_map2) +
   geom_point(data = ratings_of_interest, 
-             mapping = aes(x = longitude, y = latitude, color = rating), alpha = 0.8,
+             mapping = aes(x = longitude, y = latitude, color = rating, group = date_time), alpha = 0.8,
              size = 2) + 
   xlab(NULL) + ylab(NULL) + 
   scale_color_viridis(option="magma", "Star Rating") +
-  ggtitle("My Google Maps Place Ratings in Tucson, Arizona") + 
-  transition_reveal(along = date_time, keep_last = TRUE) + shadow_mark(past = TRUE)
-review_map
+  ggtitle("My Google Maps Place Ratings in Tucson, Arizona") #+ 
+  #transition_reveal(along = date_time, keep_last = TRUE) + shadow_mark(past = TRUE)
 
-animate(review_map, renderer = av_renderer())
+#animate(review_map, renderer = av_renderer())
