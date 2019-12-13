@@ -1,7 +1,6 @@
 library(tidyverse)
 library(jsonlite)
 library(ggmap)
-library(viridis)
 library(gganimate)
 library(lubridate)
 library(av)
@@ -86,12 +85,16 @@ area_map <-
 review_map <- ggmap(area_map) +
   geom_point(data = ratings_of_interest, 
              mapping = aes(x = longitude, y = latitude, color = rating, group = date_time),
-             alpha = 0.7, size = 4) + 
-  scale_color_brewer(palette = "Spectral", "Star Rating") +
+             alpha = 0.5, size = 4) + 
+  scale_color_brewer(palette = "Spectral", "Rating (Out of 5 Stars)") +
   xlab(NULL) + ylab(NULL) + ggtitle("My Google Maps Place Ratings") +
   theme(plot.title = element_text(size = 30)) +
   transition_reveal(along = date_time, keep_last = TRUE)
 
-animate(review_map, renderer = av_renderer(), duration = 45, height = 640, width = 640)
+# Animate the plot with gganimate package
+animate(review_map, renderer = av_renderer(),
+        duration = 30, start_pause = 2,
+        height = 640, width = 640)
 
-anim_save("animated_ratings.mp4")
+# Save the animated plot
+anim_save("animated_ratings.gif")
