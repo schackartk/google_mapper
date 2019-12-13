@@ -31,6 +31,10 @@ ratings$date_time <- ratings$date_time %>%
   gsub(pattern = "T", replacement = " ")  %>% 
   gsub(pattern = "Z", replacement = "") %>% ymd_hms()
 
+# Change $rating column to factor
+ratings$rating <- as.factor(ratings$rating)
+levels(ratings$rating) <- seq(1:5)
+
 # Parse out parts of the address column using regular expressions via stringr::str_match
 addresses <- str_match(ratings$address,
                        "[[:digit:]]+[[:space:]][[:alpha:]]{1}[[:space:]][[:alnum:][:space:]]+") # e.g. "21 N Squaw Creek Dr"
@@ -56,34 +60,38 @@ ratings_of_interest$latitude <- as.double(ratings_of_interest$latitude)
 ratings_of_interest$longitude <- as.double(ratings_of_interest$longitude)
 
 # Get rid of missing values
-ratings_of_interest <- na.omit(ratings_of_interest)
+ratings_of_interest <- ratings_of_interest %>% 
+  select(date_time, rating, latitude, longitude) %>% 
+  na.omit()
 
 ratings_of_interest <- ratings_of_interest[order(ratings_of_interest$date_time),]
+ratings_of_interest <- ratings_of_interest[ratings_of_interest$latitude < 32.4,]
 
-# Calculate boundaries for locaitons
-buffer <- 0.05
-bounding_box <- c(min(ratings_of_interest$longitude, na.rm = TRUE) - buffer, # Left
-                 min(ratings_of_interest$latitude, na.rm = TRUE) - buffer,   # Bottom
-                 max(ratings_of_interest$longitude, na.rm = TRUE) + buffer,  # Right
-                 max(ratings_of_interest$latitude, na.rm = TRUE) + buffer    # Top
-                 )
+# Calculate boundaries for locations
+long_bounds <- c(min(ratings_of_interest$longitude), max(ratings_of_interest$longitude))
+lat_bounds <- c(min(ratings_of_interest$latitude), max(ratings_of_interest$latitude))
+geometric_center <- c(mean(long_bounds),mean(lat_bounds))
 
 # Get map from google based on location boundaries
-sq_map2 <-
-  get_map(
-    bounding_box,
+area_map <-
+  get_googlemap(
+    geometric_center,
     source = "google",
-    zoom = 10
+    zoom = 11,
+    maptype = "terrain",
+    size = c(640,640)
   )
 
 # Plot the map and ratings
-review_map <- ggmap(sq_map2) +
+review_map <- ggmap(area_map) +
   geom_point(data = ratings_of_interest, 
-             mapping = aes(x = longitude, y = latitude, color = rating, group = date_time), alpha = 0.8,
-             size = 2) + 
-  xlab(NULL) + ylab(NULL) + 
-  scale_color_viridis(option="magma", "Star Rating") +
-  ggtitle("My Google Maps Place Ratings in Tucson, Arizona") #+ 
-  #transition_reveal(along = date_time, keep_last = TRUE) + shadow_mark(past = TRUE)
+             mapping = aes(x = longitude, y = latitude, color = rating, group = date_time),
+             alpha = 0.7, size = 4) + 
+  scale_color_brewer(palette = "Spectral", "Star Rating") +
+  xlab(NULL) + ylab(NULL) + ggtitle("My Google Maps Place Ratings") +
+  theme(plot.title = element_text(size = 30)) +
+  transition_reveal(along = date_time, keep_last = TRUE)
 
-#animate(review_map, renderer = av_renderer())
+animate(review_map, renderer = av_renderer(), duration = 45, height = 640, width = 640)
+
+anim_save("animated_ratings.mp4")
