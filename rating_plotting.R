@@ -2,9 +2,9 @@ library(tidyverse)
 library(jsonlite)
 library(ggmap)
 library(viridis)
-library(gganimate)
-library(lubridate)
-library(av)
+library(gganimate) # For animating ggplot
+library(lubridate) # For working with dates/times
+library(av) # For rendering animation
 
 # Register my google key
 google_key <- read_file("google_key.txt")
@@ -73,17 +73,20 @@ sq_map2 <-
   get_map(
     bounding_box,
     source = "google",
-    zoom = 10
+    zoom = 10,
+    maptype = "satellite",
+    messaging = TRUE
   )
 
 # Plot the map and ratings
 review_map <- ggmap(sq_map2) +
   geom_point(data = ratings_of_interest, 
-             mapping = aes(x = longitude, y = latitude, color = rating, group = date_time), alpha = 0.8,
-             size = 2) + 
+             mapping = aes(x = longitude, y = latitude, color = rating, group = date_time),
+             alpha = 0.8, size = 3, stroke = 0, shape = 16) + 
   xlab(NULL) + ylab(NULL) + 
-  scale_color_viridis(option="magma", "Star Rating") +
-  ggtitle("My Google Maps Place Ratings in Tucson, Arizona") #+ 
-  #transition_reveal(along = date_time, keep_last = TRUE) + shadow_mark(past = TRUE)
+  #scale_color_viridis(option="magma", "Star Rating") +
+  ggtitle("My Google Maps Place Ratings") + 
+  transition_reveal(along = date_time, keep_last = TRUE) +
+  enter_fade(alpha = 0)
 
-#animate(review_map, renderer = av_renderer())
+animate(review_map, renderer = av_renderer(), duration = 20)
