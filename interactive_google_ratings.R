@@ -94,7 +94,7 @@ server <- function(input, output, session) {
     
     leafletProxy("map", data = ratings) %>%
       clearShapes() %>%
-      addCircles(radius = 500, weight = 1, color = "#777777",
+      addCircleMarkers(radius = 8, weight = 1, color = "#777777",
                  fillColor = ~pal(rating), fillOpacity = 0.7, popup = ~paste(rating)
       )
   })
