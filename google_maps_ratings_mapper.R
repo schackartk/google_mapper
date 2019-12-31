@@ -1,13 +1,10 @@
-library(tidyverse)
-library(leaflet)
+library(tidyverse) # Of course
+library(leaflet) # For making beautiful maps
 library(lubridate) # For working with dates/times
-library(jsonlite)
-library(htmlwidgets)
-library(utf8)
-
+library(jsonlite) # Handles JSON files from Google Takeout
+library(htmlwidgets) # Saving HTML widget as .html file
 
 # Data Tidying ------------------------------------------------------------
-
 
 # Import the data and filter out columns that are not useful
 ratings <- fromJSON("maps_data/Reviews.json") %>% 
@@ -56,10 +53,9 @@ ratings <- ratings %>% select(-address)
 ratings$latitude <- as.numeric(ratings$latitude)
 ratings$longitude <- as.numeric((ratings$longitude))
 
-
 # Generate map widget -----------------------------------------------------
 
-pal <- colorFactor("RdYlGn", ratings$rating)
+pal <- colorFactor("RdYlGn", ratings$rating) # Color palette
 
 ratings_map <- leaflet(ratings) %>% addTiles() %>% 
   fitBounds(~min(longitude), ~min(latitude), ~max(longitude), ~max(latitude)) %>% 
@@ -69,14 +65,12 @@ ratings_map <- leaflet(ratings) %>% addTiles() %>%
                                   ratings$business_name, "</a></b>",
                                   "<br>",
                                   "Rating: ", lapply(ratings$rating, 
-                                                     function(x) paste(unlist(rep("???",times=x)),
+                                                     function(x) paste(unlist(rep("\u2605",times=x)),
                                                                        collapse = "")),
                                   "<br>",
                                   "Review: ", ratings$review
                                    )
   ) %>%
   addLegend(position = "bottomright", title = "Ratings", pal = pal, values = levels(ratings$rating))
-
-ratings_map
 
 saveWidget(ratings_map, "ratings_widget.html")
