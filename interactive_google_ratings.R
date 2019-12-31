@@ -77,6 +77,17 @@ server <- function(input, output, session) {
     colorFactor(input$colors, ratings$rating)
   })
   
+  makePopup <- function(maps_url, lng, lat) {
+    selectedPlace <- ratings[ratings$maps_url == maps_url,]
+    content <- as.character(tagList(
+      tags$h4("Rating:", as.integer(selectedPlace$rating)),
+      tags$strong(HTML(sprintf("%s, %s %s",
+                               selectedPlace$cities, selectedPlace$states, selectedPlace$zip
+      ))), tags$br(),
+      sprintf("Place name: %s", business_name)
+      ))
+  }
+  
   output$map <- renderLeaflet({
     # Use leaflet() here, and only include aspects of the map that
     # won't need to change dynamically (at least, not unless the
@@ -95,7 +106,7 @@ server <- function(input, output, session) {
     leafletProxy("map", data = ratings) %>%
       clearShapes() %>%
       addCircleMarkers(radius = 8, weight = 1, color = "#777777",
-                 fillColor = ~pal(rating), fillOpacity = 0.7, popup = ~paste(rating)
+                 fillColor = ~pal(rating), fillOpacity = 0.7, popup = makePopup(maps_url, longitude, latitude)
       )
   })
   
