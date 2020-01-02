@@ -64,11 +64,11 @@ ratings_map <- leaflet(ratings) %>% addTiles() %>%
                    popup = paste0("<b><a href='", ratings$maps_url,"' target='_blank'>",
                                   ratings$business_name, "</a></b>",
                                   "<br>",
-                                  "Rating: ", lapply(ratings$rating, 
+                                  "<b>Rating:</b> ", lapply(ratings$rating, 
                                                      function(x) paste(unlist(rep("\u2605",times=x)),
                                                                        collapse = "")),
                                   "<br>",
-                                  "Review: ", ratings$review
+                                  "<b>Review:</b> ", ratings$review
                                    )
   ) %>%
   addLegend(position = "bottomright", title = "Ratings", pal = pal, values = levels(ratings$rating))
