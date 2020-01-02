@@ -1,0 +1,5 @@
+install.packages(tidyverse)
+install.packages(leaflet)
+install.packages(lubridate)
+install.packages(jsonlite)
+install.packages(htmlwidgets)
