@@ -7,7 +7,7 @@ library(htmlwidgets) # Saving HTML widget as .html file
 # Data Tidying ------------------------------------------------------------
 
 # Import the data and filter out columns that are not useful
-ratings <- fromJSON("maps_data/Reviews.json") %>% 
+ratings <- fromJSON("Takeout/Reviews.json") %>% 
   as_tibble() %>% flatten() %>% as_tibble() %>%
   select(-type, -features.type, -features.geometry.coordinates, 
          -features.geometry.type, -`features.properties.Location.Country Code`) 
@@ -53,24 +53,44 @@ ratings <- ratings %>% select(-address)
 ratings$latitude <- as.numeric(ratings$latitude)
 ratings$longitude <- as.numeric((ratings$longitude))
 
+# Import location data and filter out columns that are not useful
+locations <- fromJSON("Takeout/LocationHistory.json") %>% 
+  as_tibble() %>% flatten() %>% as_tibble() %>% 
+  select(locations.latitudeE7, locations.longitudeE7)
+
+# Rename columns to make more sense
+colnames(locations)[1] <- "latitude"
+colnames(locations)[2] <- "longitude"
+
+locations <- na.omit(locations)
+locations <- locations*10^-7
+
 # Generate map widget -----------------------------------------------------
 
 pal <- colorFactor("RdYlGn", ratings$rating) # Color palette
 
-ratings_map <- leaflet(ratings) %>% addTiles() %>% 
+my_map <- leaflet(ratings) %>% addTiles(group = "OSM (default)") %>% 
   fitBounds(~min(longitude), ~min(latitude), ~max(longitude), ~max(latitude)) %>% 
-  addCircleMarkers(radius = 8, weight = 1, color = "#777777",
+  addCircleMarkers(group = "Ratings", radius = 8, weight = 1, color = "#777777",
                    fillColor = ~pal(rating), fillOpacity = 0.7,
                    popup = paste0("<b><a href='", ratings$maps_url,"' target='_blank'>",
                                   ratings$business_name, "</a></b>",
                                   "<br>",
-                                  "<b>Rating:</b> ", lapply(ratings$rating, 
+                                  "Rating: ", lapply(ratings$rating, 
                                                      function(x) paste(unlist(rep("\u2605",times=x)),
                                                                        collapse = "")),
                                   "<br>",
-                                  "<b>Review:</b> ", ratings$review
-                                   )
+                                  "Review: ", ratings$review
+                   )
   ) %>%
-  addLegend(position = "bottomright", title = "Ratings", pal = pal, values = levels(ratings$rating))
+  addLegend(position = "bottomright", title = "Ratings", pal = pal, values = levels(ratings$rating)) %>% 
+  addHeatmap(data = locations, group = "Heatmap", blur = 15, radius = 7, gradient = "BuPu") %>% 
+  addLayersControl(
+    baseGroups = "OSM (default)",
+    overlayGroups = c("Ratings", "Heatmap")
+    
+  )
 
-saveWidget(ratings_map, "ratings_widget.html")
+my_map
+
+saveWidget(my_map, "map.html")
