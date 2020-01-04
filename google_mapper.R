@@ -10,7 +10,11 @@ library(htmlwidgets) # Saving HTML widget as .html file
 ratings <- fromJSON("Takeout/Reviews.json") %>% 
   as_tibble() %>% flatten() %>% as_tibble() %>%
   select(-type, -features.type, -features.geometry.coordinates, 
-         -features.geometry.type, -`features.properties.Location.Country Code`) 
+         -features.geometry.type, -`features.properties.Location.Country Code`)
+
+locations <- fromJSON("Takeout/LocationHistory.json") %>% 
+  as_tibble() %>% flatten() %>% as_tibble() %>% 
+  select(locations.latitudeE7, locations.longitudeE7)
 
 # Rename columns to make more sense
 colnames(ratings)[1] <- "maps_url"
@@ -21,6 +25,9 @@ colnames(ratings)[5] <- "address"
 colnames(ratings)[6] <- "business_name"
 colnames(ratings)[7] <- "latitude"
 colnames(ratings)[8] <- "longitude"
+
+colnames(locations)[1] <- "latitude"
+colnames(locations)[2] <- "longitude"
 
 # Fix time formatting and data type
 ratings$date_time <- ratings$date_time %>% 
@@ -53,17 +60,9 @@ ratings <- ratings %>% select(-address)
 ratings$latitude <- as.numeric(ratings$latitude)
 ratings$longitude <- as.numeric((ratings$longitude))
 
-# Import location data and filter out columns that are not useful
-locations <- fromJSON("Takeout/LocationHistory.json") %>% 
-  as_tibble() %>% flatten() %>% as_tibble() %>% 
-  select(locations.latitudeE7, locations.longitudeE7)
-
-# Rename columns to make more sense
-colnames(locations)[1] <- "latitude"
-colnames(locations)[2] <- "longitude"
-
+# Get rid of NA values and rescale
 locations <- na.omit(locations)
-locations <- locations*10^-7
+locations <- locations*10^-7 # These are originally recorded as *10^7
 
 # Generate map widget -----------------------------------------------------
 
@@ -84,9 +83,9 @@ my_map <- leaflet(ratings) %>% addTiles(group = "OSM (default)") %>%
                    )
   ) %>%
   addLegend(position = "bottomright", title = "Ratings", pal = pal, values = levels(ratings$rating)) %>% 
-  addHeatmap(data = locations, group = "Heatmap", blur = 15, radius = 7, gradient = "BuPu") %>% 
+  addHeatmap(data = locations, group = "Heatmap", blur = 15, radius = 7, gradient = "Purples") %>% 
   addLayersControl(
-    baseGroups = "OSM (default)",
+    #baseGroups = "OSM (default)",
     overlayGroups = c("Ratings", "Heatmap")
     
   )
