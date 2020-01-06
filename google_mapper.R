@@ -82,12 +82,13 @@ my_map <- leaflet(ratings) %>% addTiles(group = "OSM (default)") %>%
                                   "Review: ", ratings$review
                    )
   ) %>%
-  addLegend(position = "bottomright", title = "Ratings", pal = pal, values = levels(ratings$rating)) %>% 
-  addHeatmap(data = locations, group = "Heatmap", blur = 15, radius = 7, gradient = "Purples") %>% 
+  addLegend(group = "Ratings", position = "bottomright",
+            title = "Ratings", pal = pal,
+            values = levels(ratings$rating)) %>% 
+  addHeatmap(data = locations, group = "Heatmap",
+             blur = 15, radius = 7, gradient = "Purples") %>% 
   addLayersControl(
-    #baseGroups = "OSM (default)",
     overlayGroups = c("Ratings", "Heatmap")
-    
   )
 
 my_map
