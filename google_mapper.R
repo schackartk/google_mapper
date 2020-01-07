@@ -83,6 +83,9 @@ clean_labels <- function(df) {
   df <- df %>% 
     add_column(latitude, longitude) %>% select(-coords)
   
+  df$latitude <- as.numeric(df$latitude)
+  df$longitude <- as.numeric(df$longitude)
+  
   return(df)
 }
 
@@ -117,6 +120,11 @@ map_loc_hist <- function(df, m) {
   return(m)
 }
 
+map_labels <- function(df, m) {
+  m <- m %>% 
+    addMarkers(group = "Labeled Places", data = df, ~longitude, ~latitude, popup = ~name)
+}
+
 # Main --------------------------------------------------------------------
 
 
@@ -144,6 +152,10 @@ if (file.exists(loc_hist_file)) {
 if(file.exists(label_file)) {
   labs <- tidy_json(label_file)
   cleaned_labs <- clean_labels(labs)
+  my_map <- map_labels(cleaned_labs, my_map)
+  layers <- append(layers, "Labeled Places")
+}else {
+  message(paste0("No file found for labeled places: '",label_file, "'"))
 }
 
 my_map <- my_map %>% addLayersControl(
