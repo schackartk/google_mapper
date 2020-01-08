@@ -1,6 +1,6 @@
 library(tidyverse) # Of course
 library(leaflet) # For making beautiful maps
-library(leaflet.extras)
+library(leaflet.extras) # Necessary for heatmap()
 library(lubridate) # For working with dates/times
 library(jsonlite) # Handles JSON files from Google Takeout
 library(htmlwidgets) # Saving HTML widget as .html file
@@ -116,7 +116,7 @@ map_ratings <- function(df, m) {
 map_loc_hist <- function(df, m) {
   m <- m %>%
     addHeatmap(data = df, group = "Heatmap",
-                          blur = 15, radius = 7, gradient = "Purples")
+                          blur = 30, radius = 15, max = 0.85)
   return(m)
 }
 
