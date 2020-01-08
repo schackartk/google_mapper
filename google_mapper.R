@@ -122,14 +122,18 @@ map_loc_hist <- function(df, m) {
 
 map_labels <- function(df, m) {
   m <- m %>% 
-    addMarkers(group = "Labeled Places", data = df, ~longitude, ~latitude, popup = ~name)
+    addMarkers(group = "Labeled Places", data = df, ~longitude, ~latitude,
+               popup = paste0("Label: ", df$name, "<br>", "Address: ", df$address))
 }
 
 # Main --------------------------------------------------------------------
 
+# Initialize an empty map
 
 my_map <- leaflet() %>% addTiles(group = "OSM (default)")
 layers <- NULL
+
+# Add layers for files that are present
 
 if (file.exists(ratings_file)) {
   ratings <- tidy_json(ratings_file)
@@ -158,8 +162,12 @@ if(file.exists(label_file)) {
   message(paste0("No file found for labeled places: '",label_file, "'"))
 }
 
+# Add a control to toggle layers
+
 my_map <- my_map %>% addLayersControl(
   overlayGroups = layers
 )
+
+# Show map
 
 my_map
