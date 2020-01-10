@@ -116,7 +116,7 @@ map_ratings <- function(df, m) {
 map_loc_hist <- function(df, m) {
   m <- m %>%
     addHeatmap(data = df, group = "Heatmap",
-                          blur = 30, radius = 15, max = 0.85)
+                          blur = 30, radius = 15, max = 0.85, gradient = "Blues")
   return(m)
 }
 
