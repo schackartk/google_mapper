@@ -146,7 +146,7 @@ map_data <- function(files) {
     layers <- append(layers, "Ratings")
     message("Done processing ratings file.")
   } else {
-    message(paste0("No file found for ratings: '",ratings_file,"'. Skipping."))
+    message(paste0("No file found for ratings: '", ratings_file,"'. Skipping."))
   }
   
   if (file.exists(loc_hist_file)) {
@@ -157,7 +157,7 @@ map_data <- function(files) {
     layers <- append(layers, "Location Heatmap")
     message("Done processing location history file.")
   } else {
-    message(paste0("No file found for location history: '",loc_hist_file, "'. Skipping."))
+    message(paste0("No file found for location history: '", loc_hist_file, "'. Skipping."))
   }
   
   if(file.exists(label_file)) {
@@ -168,9 +168,10 @@ map_data <- function(files) {
     layers <- append(layers, "Labeled Places")
     message("Done processing labeled places file.")
   }else {
-    message(paste0("No file found for labeled places: '",label_file, "'. Skipping."))
+    message(paste0("No file found for labeled places: '", label_file, "'. Skipping."))
   }
   
+  # Check that layers are present
   if(is.null(layers)) {
     message("Unable to find any usable files, no output can be generated.")
     message("Please ensure that the provided file paths are correct.")
@@ -181,11 +182,11 @@ map_data <- function(files) {
       overlayGroups = layers
     )
     
-    # Show map
+    # Save html map widget
     message("Saving map output.")
     saveWidget(my_map, out_file)
     
-    message(paste("Done, see file:", out_file))
+    message(paste0("Done, see file: '", out_file, "'!"))
   }
 
 }
