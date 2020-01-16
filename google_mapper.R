@@ -118,7 +118,7 @@ map_data <- function(files) {
   
   map_loc_hist <- function(df, m) {
     m <- m %>%
-      addHeatmap(data = df, group = "Heatmap",
+      addHeatmap(data = df, group = "Location Heatmap",
                  blur = 30, radius = 15, max = 0.85, gradient = "Blues")
     return(m)
   }
@@ -154,7 +154,7 @@ map_data <- function(files) {
     loc_hist <- tidy_json(loc_hist_file)
     cleaned_loc_hist <- clean_history(loc_hist)
     my_map <- map_loc_hist(cleaned_loc_hist, my_map)
-    layers <- append(layers, "Heatmap")
+    layers <- append(layers, "Location Heatmap")
     message("Done processing location history file.")
   } else {
     message(paste0("No file found for location history: '",loc_hist_file, "'. Skipping."))
@@ -171,16 +171,22 @@ map_data <- function(files) {
     message(paste0("No file found for labeled places: '",label_file, "'. Skipping."))
   }
   
-  # Add a control to toggle layers
-  
-  my_map <- my_map %>% addLayersControl(
-    overlayGroups = layers
-  )
-  
-  # Show map
-  message("Saving map output.")
-  saveWidget(my_map, out_file)
-  
-  message(paste("Done, see file:", out_file))
+  if(is.null(layers)) {
+    message("Unable to find any usable files, no output can be generated.")
+    message("Please ensure that the provided file paths are correct.")
+  } else {
+    
+    # Add a control to toggle layers
+    my_map <- my_map %>% addLayersControl(
+      overlayGroups = layers
+    )
+    
+    # Show map
+    message("Saving map output.")
+    saveWidget(my_map, out_file)
+    
+    message(paste("Done, see file:", out_file))
+  }
+
 }
 
