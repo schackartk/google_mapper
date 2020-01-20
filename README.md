@@ -24,7 +24,7 @@ As it is rather uncouth to place install commands within a script, the main scri
 
 # Expected Behavior
 
-Both `executable_google_mapper.R` and `explicit_google_mapper.R` call google_mapper.R.
+Both `executable_google_mapper.R` and `explicit_google_mapper.R` call `google_mapper.R`.
 
 `executable_google_mapper.R` is run from the command line. `explicit_google_mapper.R` is run from, for instance, RStudio.
 
