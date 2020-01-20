@@ -176,7 +176,7 @@ map_data <- function(files) {
   
   my_map <- leaflet() %>% addTiles(group = "OSM (default)", attribution = paste0("Source code: <a href='https://github.com/schackartk/google_mapper' target= '_blank'",
                                                                                  " title = 'google_mapper GitHub repository' >google_mapper</a>,",
-                                                                                 "by <a href='https://twitter.com/SchackartK' target= '_blank'",
+                                                                                 " by <a href='https://twitter.com/SchackartK' target= '_blank'",
                                                                                  " title = 'Author twitter' >@SchackartK</a>"))
   layers <- NULL
   
