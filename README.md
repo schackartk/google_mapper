@@ -1,4 +1,4 @@
-# my_google_maps
+# google_mapper
 A script to visualize Google Maps Takeout data. Written in R. Currently supports plotting place ratings/reviews, labeled places, and location history (as a heatmap).
 
 I have supplied both a command-line executable version (`executable_google_mapper.R`) and a runnable script (`explicit_google_mapper.R`).
