@@ -132,19 +132,19 @@ map_data <- function(files) {
   map_ratings <- function(df, m) {
     pal <- colorFactor("RdYlGn", df$rating) # Color palette
     
-    m <- m %>% fitBounds(min(df$longitude), min(df$latitude), max(df$longitude), max(df$latitude)) %>% 
+    m <- m %>%
       addCircleMarkers(group = "Ratings", data = df,
                        ~longitude, ~latitude,
                        radius = 8, weight = 1, color = "#777777",
                        fillColor = ~pal(rating), fillOpacity = 0.7,
-                       popup = paste0("<b><a href='", df$maps_url,"' target='_blank'>",
-                                      df$business_name, "</a></b>",
+                       popup = ~paste0("<b><a href='", maps_url,"' target='_blank'>",
+                                      business_name, "</a></b>",
                                       "<br>",
-                                      "Rating: ", lapply(df$rating, 
+                                      "Rating: ", lapply(rating, 
                                                          function(x) paste(unlist(rep("\u2605",times=x)),
                                                                            collapse = "")),
                                       "<br>",
-                                      "Review: ", df$review
+                                      "Review: ", review
                        )
       ) %>%
       addLegend(group = "Ratings", position = "bottomright",
