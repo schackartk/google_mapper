@@ -144,7 +144,10 @@ map_data <- function(files) {
                                                          function(x) paste(unlist(rep("\u2605",times=x)),
                                                                            collapse = "")),
                                       "<br>",
-                                      "Review: ", review
+                                      lapply(review,
+                                             function(x) if (!is.na(x)) "Review:" else ""),
+                                      lapply(review,
+                                                         function(x) if (!is.na(x)) x else "")
                        )
       ) %>%
       addLegend(group = "Ratings", position = "bottomright",
