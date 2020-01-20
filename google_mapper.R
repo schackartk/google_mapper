@@ -145,9 +145,9 @@ map_data <- function(files) {
                                                                            collapse = "")),
                                       "<br>",
                                       lapply(review,
-                                             function(x) if (!is.na(x)) "Review:" else ""),
+                                             function(x) if (!is.na(x)) "Review: " else ""),
                                       lapply(review,
-                                                         function(x) if (!is.na(x)) x else "")
+                                             function(x) if (!is.na(x)) x else "")
                        )
       ) %>%
       addLegend(group = "Ratings", position = "bottomright",
@@ -174,7 +174,10 @@ map_data <- function(files) {
   
   # Initialize an empty map
   
-  my_map <- leaflet() %>% addTiles(group = "OSM (default)")
+  my_map <- leaflet() %>% addTiles(group = "OSM (default)", attribution = paste0("Source code: <a href='https://github.com/schackartk/google_mapper' target= '_blank'",
+                                                                                 " title = 'google_mapper GitHub repository' >google_mapper</a>,",
+                                                                                 "by <a href='https://twitter.com/SchackartK' target= '_blank'",
+                                                                                 " title = 'Author twitter' >@SchackartK</a>"))
   layers <- NULL
   
   # Add layers for files that are present
