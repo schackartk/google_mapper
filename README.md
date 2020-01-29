@@ -34,7 +34,7 @@ The end product is an HTML widget that can be opened in most web browsers.
 
 Edit the `explicit_google_mapper.R` script to make the paths to the respective files match your file structure.
 
-If you are using paths relative to where the script is located (which is the case for the default paths), make sure to change your working directory, e.g. `setwd("path/to/google_mapper/directory"`.
+If you are using paths relative to where the script is located (which is the case for the default paths), make sure to change your working directory, e.g. `setwd("path/to/google_mapper/directory")`.
 
 Run as you would any R code. 
 
