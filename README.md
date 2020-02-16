@@ -1,7 +1,9 @@
 # google_mapper
 A script to visualize Google Maps Takeout data. Written in R. Currently supports plotting place ratings/reviews, labeled places, and location history (as a heatmap).
 
-I have supplied both a command-line executable version (`executable_google_mapper.R`) and a runnable script (`explicit_google_mapper.R`).
+I have supplied both a command-line executable version (`executable_google_mapper.R`) and a hard-coded script (`explicit_google_mapper.R`).
+
+If you are unsure which will work for you, please use the hard-coded script. The executable version will most likely require more work to get your path/environment to get it to work.
 
 # Preparatory Steps
 
@@ -32,11 +34,17 @@ The end product is an HTML widget that can be opened in most web browsers.
 
 ## Hard-coded Script Version
 
+If you haven't set up R for executable files from the command-line, use this version.
+
 Edit the `explicit_google_mapper.R` script to make the paths to the respective files match your file structure.
 
-If you are using paths relative to where the script is located (which is the case for the default paths), make sure to change your working directory, e.g. `setwd("path/to/google_mapper/directory")`.
+If you are using paths relative to where the script is located (which is the case for the default paths), make sure to change your working directory, e.g. run `setwd("path/to/google_mapper/directory")` in RStudio.
 
-Run as you would any R code. 
+Run `explicit_google_mapper.R` as you would any R code.
+
+If there are errors or warnings, they will be displayed in the same way as the command line version (as seen below).
+
+Once it runs, open the .html file now present in the same directory as this code.
 
 ## Command Line Executable Version
 
