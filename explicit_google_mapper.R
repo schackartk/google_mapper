@@ -3,9 +3,9 @@
 source("google_mapper.R")
 
 # Hard coded file names and paths
-ratings_file <-"Takeout/Reviews.json" 
-loc_hist_file <- "Takeout/LocationHistory.json"
-label_file <- "Takeout/LabeledPlaces.json"
+ratings_file <-"Takeout/Maps (your places)/Reviews.json" 
+loc_hist_file <- "Takeout/Location History/Location History.json"
+label_file <- "Takeout/Maps/My labeled places/Labeled places.json"
 out_file <- "map.html"
 
 # Put file names into a list
