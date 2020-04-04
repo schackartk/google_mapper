@@ -12,18 +12,18 @@ parser <- arg_parser("google_mapper", hide.opts = TRUE)
 parser <- parser %>% 
   add_argument("--ratings",
                help = "Ratings/reviews json file",
-               default = "Takeout/Reviews.json"
+               default = "Takeout/Maps (your places)/Reviews.json"
                ) %>% 
   
   add_argument("--locations",
                help = "Location history json file",
-               default = "Takeout/LocationHistory.json"
+               default = "Takeout/Location History/Location History.json"
                ) %>% 
   
   add_argument("--labels",
                short = "-b",
                help = "Labeled places json file",
-               default = "Takeout/LabeledPlaces.json"
+               default = "Takeout/Maps/My labeled places/Labeled places.json"
                ) %>% 
   
   add_argument("--outfile",
