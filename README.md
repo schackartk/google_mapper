@@ -18,18 +18,17 @@ More information on how to do this can be found [here](https://support.google.co
 
 For this script, you will need to select "Location History", "Maps", and "Maps (your places)". You can download others, but these are the ones that will be used. Download all files as JSON.
 
-Unzip the data. If you would like the default paths to work, the folder containing this repository should have a folder called "Takeout" and within that folder, 3 files: "Reviews.json", "LocationHistory.json", and "LabeledPlaces.json". The script will work even if you are missing some of these files. You may be missing some of these files if, for instance, you have never posted any ratings or reviews on Google Maps.
+Unzip the data. If you would like the default paths to work, leave the default file structure. This should place a directory called "Takeout" in the same place as this repo. You may be missing some of the files used in this script if you have never posted any ratings or reviews on Google Maps, or if your location history has been disabled.
 
 ## Install the Necessary Libraries
 
-As it is rather uncouth to place install commands within a script, the main script only loads the necessary packages, so you have to install them first. To make this easier, you may open and run the script `requirements.R` in an IDe, or run `./requirements.R` from the command line.
+As it is uncouth to place install commands within a script, the main script only loads the necessary packages, so you have to install them first. To make this easier, you may open and run the script `requirements.R` in an IDe, or run `./requirements.R` from the command line.
 
 # Expected Behavior
 
 There are two ways to run google_mapper:
 * `IDE_google_mapper.R` is run from an IDE, like RStudio. If you haven't set up R for executable files from the command-line, use this version.
 * `executable_google_mapper.R` is run from the command line.
-
 
 The end product is an HTML widget that can be opened in most web browsers.
 
