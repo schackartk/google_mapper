@@ -37,18 +37,24 @@ map_data <- function(files) {
     out <- tryCatch({
       # Filter out unnecessary columns
       df <- df %>% 
-        select(-type, -features.type, -features.geometry.coordinates, 
+        select(-type, -features.type, -features.geometry.coordinates,
                -features.geometry.type, -`features.properties.Location.Country Code`)
       
+      # Get rid of extra column if an entry doesn't have location info
+      if("features.properties.Comment" %in% colnames(df)) {
+        df <- df %>% select(-features.properties.Comment)
+      }
+      
       # Rename columns to make more sense
-      colnames(df)[1] <- "maps_url"
-      colnames(df)[2] <- "date_time"
-      colnames(df)[3] <- "rating"
-      colnames(df)[4] <- "review"
-      colnames(df)[5] <- "address"
-      colnames(df)[6] <- "business_name"
-      colnames(df)[7] <- "latitude"
-      colnames(df)[8] <- "longitude"
+      df <- df %>% 
+        rename("maps_url" = "features.properties.Google Maps URL") %>% 
+        rename("date_time" = "features.properties.Published") %>% 
+        rename("rating" = "features.properties.Star Rating") %>% 
+        rename("review" = "features.properties.Review Comment") %>% 
+        rename("address" = "features.properties.Location.Address") %>% 
+        rename("business_name" = "features.properties.Location.Business Name") %>% 
+        rename("latitude" = "features.properties.Location.Geo Coordinates.Latitude") %>% 
+        rename("longitude" = "features.properties.Location.Geo Coordinates.Longitude")
       
       # Fix time formatting and data type
       df$date_time <- df$date_time %>% 
