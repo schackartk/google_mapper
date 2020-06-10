@@ -79,6 +79,9 @@ Saving map output.
 Done, see file: 'map.html'!
 ```
 
+# Disclaimer
+
+I had access to only a few people's Takeout archives. I designed my data processing based on the file structures I observed. I can't guarantee Takeout will give you a file that can be handled in the way I designed this. I tried to introduce error handling, but I am not a pro.
 
 # Authorship
 
