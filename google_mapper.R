@@ -85,8 +85,9 @@ map_data <- function(files) {
       df <- df %>% 
         select(locations.latitudeE7, locations.longitudeE7)
       
-      colnames(df)[1] <- "latitude"
-      colnames(df)[2] <- "longitude"
+      df <- df %>% 
+        rename("latitude" = "locations.latitudeE7") %>% 
+        rename("longitude" = "locations.longitudeE7")
       
       # Get rid of NA values and rescale
       df <- na.omit(df)
@@ -109,9 +110,10 @@ map_data <- function(files) {
       df <- df %>% 
         select(features.geometry.coordinates, features.properties.address, features.properties.name)
       
-      colnames(df)[1] <- "coords"
-      colnames(df)[2] <- "address"
-      colnames(df)[3] <- "name"
+      df <- df %>% 
+        rename("coords" = "features.geometry.coordinates") %>% 
+        rename("address" = "features.properties.address") %>% 
+        rename("name" = "features.properties.name")
       
       latitude <- str_match(df$coords, "[[:digit:]]+\\.[[:digit:]]+[,]") %>% 
         gsub(pattern = ",", replacement = "")
