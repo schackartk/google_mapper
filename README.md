@@ -26,15 +26,14 @@ As it is rather uncouth to place install commands within a script, the main scri
 
 # Expected Behavior
 
-Both `executable_google_mapper.R` and `explicit_google_mapper.R` call `google_mapper.R`.
+There are two ways to run google_mapper:
+* `explicit_google_mapper.R` is run from an IDE, like RStudio. If you haven't set up R for executable files from the command-line, use this version.
+* `executable_google_mapper.R` is run from the command line.
 
-`executable_google_mapper.R` is run from the command line. `explicit_google_mapper.R` is run from, for instance, RStudio.
 
 The end product is an HTML widget that can be opened in most web browsers.
 
 ## Hard-coded Script Version
-
-If you haven't set up R for executable files from the command-line, use this version.
 
 Edit the `explicit_google_mapper.R` script to make the paths to the respective files match your file structure.
 
