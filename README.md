@@ -60,12 +60,12 @@ flags:
   -h, --help       show this help message and exit
 
 optional arguments:
-  -r, --ratings    Ratings/reviews json file [default:
-                   Takeout/Reviews.json]
+  -r, --ratings    Ratings/reviews json file [default: Takeout/Maps
+                   (your places)/Reviews.json]
   -l, --locations  Location history json file [default:
-                   Takeout/LocationHistory.json]
-  -b, --labels     Labeled places json file [default:
-                   Takeout/LabeledPlaces.json]
+                   Takeout/Location History/Location History.json]
+  -b, --labels     Labeled places json file [default: Takeout/Maps/My
+                   labeled places/Labeled places.json]
   -o, --outfile    Output file name [default: map.html]
 ```
 
