@@ -1,5 +1,5 @@
 # Load main script
-# The following file following should be in the same directory as this script
+# The following file should be in the same directory as this script
 source("google_mapper.R")
 
 # Hard coded file names and paths
