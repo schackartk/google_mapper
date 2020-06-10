@@ -79,6 +79,10 @@ Saving map output.
 Done, see file: 'map.html'!
 ```
 
+# Acknowledgements
+
+I was inspired to make a Google Takeout Maps data visulation by Luka Steinbach's [Geo Heatmap](https://github.com/luka1199/geo-heatmap) made in Python. Honestly, leaflet's heatmap algorithm is simply better in Python, no matter how much parameter tweaking I do. Check out Luka's repo for a better location history heatmap.
+
 # Disclaimer
 
 I had access to only a few people's Takeout archives. I designed my data processing based on the file structures I observed. I can't guarantee Takeout will give you a file that can be handled in the way I designed this. I tried to introduce error handling, but I am not a pro.
