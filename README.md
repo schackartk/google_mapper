@@ -22,7 +22,7 @@ Unzip the data. If you would like the default paths to work, the folder containi
 
 ## Install the Necessary Libraries
 
-As it is rather uncouth to place install commands within a script, the main script only loads the necessary packages, so you have to install them first. To make this easier, you may open and run the script `requirements.R`, or run `exec_requirements.R` from the command line.
+As it is rather uncouth to place install commands within a script, the main script only loads the necessary packages, so you have to install them first. To make this easier, you may open and run the script `requirements.R` in an IDe, or run `./requirements.R` from the command line.
 
 # Expected Behavior
 
