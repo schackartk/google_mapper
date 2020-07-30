@@ -49,15 +49,15 @@ map_data <- function(files) {
         
         df <- df %>%
           select(
-            -type, -features.type, -features.geometry.coordinates,
-            -features.geometry.type, -`features.properties.Location.Country Code`
-          )
-
-        # Get rid of extra column if an entry doesn't have location info
-        
-        if ("features.properties.Comment" %in% colnames(df)) {
-          df <- df %>% select(-features.properties.Comment)
-        }
+            "features.properties.Google Maps URL", 
+            "features.properties.Published",
+            "features.properties.Star Rating",
+            "features.properties.Review Comment",
+            "features.properties.Location.Address",
+            "features.properties.Location.Business Name",
+            "features.properties.Location.Geo Coordinates.Latitude",
+            "features.properties.Location.Geo Coordinates.Longitude"
+        )
 
         # Rename columns to make more sense
         
@@ -109,11 +109,12 @@ map_data <- function(files) {
         df <- df %>%
           rename("latitude" = "locations.latitudeE7") %>%
           rename("longitude" = "locations.longitudeE7")
-
-        # Get rid of NA values and rescale
         
         df <- na.omit(df)
-        df <- df * 10^-7 # These are originally recorded as *10^7
+        
+        # Rescale data since they are originally recorded as *10^7
+        
+        df <- df * 10^-7
 
         df
       },
