@@ -168,7 +168,20 @@ map_data <- function(files) {
   }
 
   map_ratings <- function(df, m) {
-    pal <- colorFactor("RdYlGn", df$rating) # Color palette
+    
+    color_pal <- "RdYlGn"
+    
+    pal <- colorFactor(color_pal, df$rating)
+    
+    # Make labels for legend using star symbol (\u2605)
+    
+    labels <- c()
+    
+    for(level in rev(levels(df$rating)))
+      labels <- labels %>% append(
+        paste(unlist(rep("\u2605", times = level)),
+              collapse = ""
+        ))
 
     m <- m %>%
       addCircleMarkers(
@@ -201,10 +214,11 @@ map_data <- function(files) {
       ) %>%
       addLegend(
         group = "Ratings", position = "bottomright",
-        title = "Ratings", pal = pal,
-        values = levels(df$rating)
-      )
-
+        title = "Place Rating", values = levels(df$rating),
+        pal = colorFactor(color_pal, df$rating, reverse = TRUE),
+        labFormat = function(type, cuts, p) {paste0(labels)}
+        )
+    
     return(m)
   }
 
