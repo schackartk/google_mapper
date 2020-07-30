@@ -1,4 +1,5 @@
-# google_mapper
+# `google_mapper`
+# Make an interactive html map from your Google Takeout data
 ![example](https://github.com/schackartk/google_mapper/blob/master/example_output.JPG)
 A script to visualize Google Maps Takeout data. Written in R. Currently supports plotting place ratings/reviews, labeled places, and location history (as a heatmap).
 
@@ -23,7 +24,7 @@ Unzip the data. If you would like the default paths to work, unzip to this repo'
 
 ## Install the Necessary Libraries
 
-The scripts only load the necessary packages, so you have to install the packages first. To make this easier, you may open and run the script `requirements.R` in an IDe, or run `./requirements.R` from the command line.
+The scripts only load the necessary packages, so you have to install the packages first. To make this easier, you may open and run the script `requirements.R` in an IDE, or run `./requirements.R` from the command line.
 
 # Expected Behavior
 
