@@ -7,6 +7,3 @@ install.packages("leaflet")
 install.packages("leaflet.extras")
 install.packages("lubridate")
 install.packages("tidyverse")
-
-
-
