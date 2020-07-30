@@ -1,9 +1,12 @@
 #!/usr/bin/env Rscript
 
-install.packages("tidyverse")
+install.packages("argparser")
+install.packages("htmlwidgets")
+install.packages("jsonlite")
 install.packages("leaflet")
 install.packages("leaflet.extras")
 install.packages("lubridate")
-install.packages("jsonlite")
-install.packages("htmlwidgets")
-install.packages("argparser")
+install.packages("tidyverse")
+
+
+
